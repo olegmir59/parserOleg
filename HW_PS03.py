@@ -38,29 +38,63 @@ def get_english_words():
 # Создаём функцию, которая будет делать саму игру
 def word_game():
     print("Добро пожаловать в игру")
-    icount = 0
-    while True:
-        # Создаём функцию, чтобы использовать результат функции-словаря
-        word_dict = get_english_words()
-        word = word_dict.get("english_words")
-        word_definition = word_dict.get("word_definition")
+    # Создаём функцию, чтобы использовать результат функции-словаря
+    word_dict = get_english_words()
+    word = word_dict.get("english_words")
+    word_definition = word_dict.get("word_definition")
 
-        # Начинаем игру
-        print(f"Значение слова - {word_definition}")
-        user = input("Что это за слово? ")
-        if user == word:
+    # Переводим слово и определение на русский язык
+    translator = googletrans.Translator()
+    rus_word = translator.translate(word, dest='ru').text
+    rus_definition = translator.translate(word_definition, dest='ru').text
+
+    # Начинаем игру
+    print(f"Значение слова - {rus_definition}")
+    attempts = 10
+    revealed_letters = ['_'] * len(word)
+    guessed = False
+
+    for attempt in range(attempts):
+        print(f"Попытка {attempt + 1}/{attempts}")
+        print("".join(revealed_letters))
+        user_guess = input("Что это за слово? ").strip().lower()
+
+        if user_guess == word.lower():
             print("Все верно!")
-        else:
-            print(f"Ответ неверный, было загадано это слово - {word}")
-
-        # Создаём возможность закончить игру
-        play_again = input("Хотите сыграть еще раз? y/n")
-        if play_again != "y":
-            print("Спасибо за игру!")
+            guessed = True
             break
+        else:
+            print(f"Ответ неверный, осталось попыток: {attempts - attempt - 1}")
+            if attempt >= 1:  # После второй попытки начинаем открывать буквы
+                index = attempt - 1
+                if index < len(word):
+                    revealed_letters[index] = word[index]
+                else:
+                    print("Слово слишком короткое для такого количества попыток.")
 
+    if not guessed:
+        print(f"Запомни это слово: {word} ({rus_word})")
+
+"""  старая версмя игры
+
+
+    user = input("Что это за слово? ")
+    if user == word:
+        print("Все верно!")
+    else:
+        print(f"Ответ неверный, было загадано это слово - {word}")
+
+    # Создаём возможность закончить игру
+    play_again = input("Хотите сыграть еще раз? y/n")
+    if play_again != "y":
+        print("Спасибо за игру!")
+"""
 
 translate()
-word_game()
-
+while True:
+    word_game()
+    play_again = input("Хотите сыграть еще раз? y/n")
+    if play_again != "y":
+        print("Спасибо за игру!")
+        break
 
