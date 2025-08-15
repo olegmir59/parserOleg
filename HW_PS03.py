@@ -6,13 +6,6 @@ from bs4 import BeautifulSoup
 import googletrans
 
 
-def translate():
-    eng_word = input("Введите английское слово: ")
-    # eng_def = input("Введите английское определение: ")
-    translator = googletrans.Translator()
-    rus_word = translator.translate(eng_word, dest='ru').text
-    print(rus_word)
-
 # Создаём функцию, которая будет получать информацию
 def get_english_words():
     url = "https://randomword.com/"
@@ -33,7 +26,7 @@ def get_english_words():
     # Функция, которая сообщит об ошибке, но не остановит программу
     except:
         print("Произошла ошибка")
-
+        return None
 
 # Создаём функцию, которая будет делать саму игру
 def word_game():
@@ -75,26 +68,10 @@ def word_game():
     if not guessed:
         print(f"Запомни это слово: {word} ({rus_word})")
 
-"""  старая версмя игры
 
-
-    user = input("Что это за слово? ")
-    if user == word:
-        print("Все верно!")
-    else:
-        print(f"Ответ неверный, было загадано это слово - {word}")
-
-    # Создаём возможность закончить игру
-    play_again = input("Хотите сыграть еще раз? y/n")
-    if play_again != "y":
-        print("Спасибо за игру!")
-"""
-
-translate()
 while True:
     word_game()
     play_again = input("Хотите сыграть еще раз? y/n")
     if play_again != "y":
         print("Спасибо за игру!")
         break
-
