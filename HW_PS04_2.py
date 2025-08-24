@@ -4,8 +4,10 @@ import time
 import random
 
 # Инициализация браузера
-browser = webdriver.Chrome()
+# browser = webdriver.Chrome()
 
+# Инициализация браузера для Джулии
+browser = webdriver.Firefox()
 
 def search_wikipedia(query):
     # Переходим на главную страницу Википедии и вводим запрос
@@ -46,7 +48,9 @@ def get_random_link():
 
 
 def main():
-
+    url = f"https://ru.wikipedia.org/wiki"
+    browser.get(url)
+    time.sleep(2)
     while True:
         query = input("Введите запрос для поиска в Википедии : ")
         search_wikipedia(query)

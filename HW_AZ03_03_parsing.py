@@ -1,3 +1,7 @@
+# 3. Необходимо спарсить цены на диваны с сайта divan.ru в csv файл,
+# обработать данные, найти среднюю цену # и вывести ее,
+# а также сделать гистограмму цен на диваны
+
 import time
 import csv
 from selenium import webdriver
@@ -5,7 +9,7 @@ from selenium.webdriver.common.by import By
 
 driver = (webdriver.Chrome())
 
-url = "https://www.divan.ru/category/svet"
+url = "https://www.divan.ru/category/divany-i-kresla"
 driver.get(url)
 time.sleep(3)
 
@@ -28,7 +32,7 @@ for svet in svets:
 
 driver.quit()
 
-with open("svets.csv", 'w', newline='', encoding='utf-8') as file:
+with open("divans.csv", 'w', newline='', encoding='utf-8') as file:
     writer = csv.writer(file)
     writer.writerow(['Название', 'цена', 'url'])
     writer.writerows(parsed_data)
